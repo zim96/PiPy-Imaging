@@ -30,16 +30,22 @@ def home():
 def still():
 	res_width = 640
 	res_height = 480
+	rotation_val = 0
 	
 	temp_res_width = request.args.get('width', default=-1, type=int)
-	if temp_res_width > 0:
-	  res_width = temp_res_width
-
 	temp_res_height = request.args.get('height', default=-1, type=int)
-	if temp_res_height > 0:
-		res_height = temp_res_height
+	if temp_res_width > 0 and temp_res_height > 0:
+	  res_width = temp_res_width
+	  res_height = temp_res_height
+
+	temp_rotation_val = request.args.get('rotate', default=-1, type=int)
+	if temp_rotation_val > 0:
+		rotation_val = temp_rotation_val
 
 	with PiCamera(resolution=(res_width, res_height)) as pcam:
+		# Set up the camera
+		pcam.rotation = rotation_val
+
 		time.sleep(2)
 		img = np.empty((res_height, res_width, 3), dtype=np.uint8)
 		pcam.capture(img, 'rgb')
