@@ -32,17 +32,26 @@ def still():
 	res_height = 480
 	rotation_val = 0
 	
+	# Set resolution via args
 	temp_res_width = request.args.get('width', default=-1, type=int)
 	temp_res_height = request.args.get('height', default=-1, type=int)
 	if temp_res_width > 0 and temp_res_height > 0:
 	  res_width = temp_res_width
 	  res_height = temp_res_height
 
+	# Set rotation via args
 	temp_rotation_val = request.args.get('rotate', default=-1, type=int)
 	if temp_rotation_val > 0:
 		rotation_val = temp_rotation_val
 
-	with PiCamera(resolution=(res_width, res_height)) as pcam:
+	# Set stereo via args
+	stereo = request.args.get('stereo', default=0, type=int)
+	if stereo == 1:
+		stereo_mode_val = 'side-by-side'
+	else:
+		stereo_mode_val = 'none'
+
+	with PiCamera(stereo_mode=stereo_mode_val, resolution=(res_width, res_height)) as pcam:
 		# Set up the camera
 		pcam.rotation = rotation_val
 
