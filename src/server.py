@@ -6,6 +6,7 @@ from flask import Response
 from flask import request
 import time
 import numpy as np
+
 app = Flask(__name__)
 
 def livestream_gen():
@@ -54,8 +55,12 @@ def still():
 	with PiCamera(stereo_mode=stereo_mode_val, resolution=(res_width, res_height)) as pcam:
 		# Set up the camera
 		pcam.rotation = rotation_val
+		pcam.exposure_mode = "auto"
+		pcam.awb_mode = "incandescent"
+		pcam.iso = 100
+		pcam.shutter_speed = 8000
 
-		time.sleep(2)
+		#time.sleep(1)
 		img = np.empty((res_height, res_width, 3), dtype=np.uint8)
 		pcam.capture(img, 'rgb')
 
