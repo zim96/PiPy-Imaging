@@ -55,10 +55,10 @@ def still():
 	with PiCamera(stereo_mode=stereo_mode_val, resolution=(res_width, res_height)) as pcam:
 		# Set up the camera
 		pcam.rotation = rotation_val
-		pcam.exposure_mode = "auto"
+		pcam.exposure_mode = "spotlight"
 		pcam.awb_mode = "incandescent"
 		pcam.iso = 100
-		pcam.shutter_speed = 8000
+		pcam.shutter_speed = 4000
 
 		#time.sleep(1)
 		img = np.empty((res_height, res_width, 3), dtype=np.uint8)
